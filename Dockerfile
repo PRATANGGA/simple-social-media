@@ -38,9 +38,6 @@ RUN mkdir -p bootstrap/cache \
     chown -R www-data:www-data bootstrap storage && \
     chmod -R 775 bootstrap storage
 
-# Install Laravel dependencies using Composer
-RUN composer install --no-dev --optimize-autoloader
-
 # Install.sh hanya ditandai executable — tidak dijalankan di build time
 RUN chmod +x install.sh
 
@@ -48,4 +45,3 @@ EXPOSE 8000
 
 # Command default
 CMD php artisan serve --host=0.0.0.0 --port=8000
-
