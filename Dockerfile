@@ -39,7 +39,7 @@ RUN mkdir -p bootstrap/cache storage/framework/{sessions,views,cache} && \
 RUN chmod +x install.sh
 
 # Jalankan install.sh (harusnya sudah valid sekarang)
-RUN ./install.sh || (cat storage/logs/laravel.log && exit 1)
+RUN ./install.sh 
 
 # Final permission
 RUN chown -R www-data:www-data /var/www/sosmed && \
