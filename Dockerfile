@@ -38,7 +38,7 @@ RUN mkdir -p bootstrap/cache storage/framework/{sessions,views,cache} && \
 # Buat install.sh bisa dieksekusi
 RUN chmod +x install.sh
 
-# Jalankan install.sh (harusnya sudah valid sekarang)
+# Jalankan install.sh (harusnya sudah valid sekarang
 RUN ./install.sh 
 
 # Final permission
