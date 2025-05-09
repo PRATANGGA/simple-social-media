@@ -38,7 +38,7 @@ RUN mkdir -p bootstrap/cache storage/framework/{sessions,views,cache} && \
 # Buat install.sh bisa dieksekusi
 RUN chmod +x install.sh
 
-# Jalankan install.sh (harusnya sudah valid sekarang
+# Jalankan install.sh (harusnya sudah valid sekarang)
 RUN ./install.sh 
 
 # Final permission
@@ -47,7 +47,5 @@ RUN chown -R www-data:www-data /var/www/sosmed && \
 
 EXPOSE 8000
 
-# Command default
-CMD php artisan serve --host=0.0.0.0 --port=8000
-
+CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=8000"]
 
