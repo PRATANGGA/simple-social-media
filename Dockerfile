@@ -51,4 +51,3 @@ EXPOSE 8000
 CMD php artisan serve --host=0.0.0.0 --port=8000
 
 
->>>>>>> parent of 3cfa359 ( fix Dockerfile install.sh)
