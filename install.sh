@@ -1,29 +1,37 @@
 #!/bin/bash
 
-set -e
+set -e  # Stop skrip kalau ada error
 
-# Install dependencies
-composer install
+echo "📦 Installing Node & PHP dependencies..."
 npm install
-npm run build
+npm run dev
 
-# Setup Laravel
-cp .env.example .env
+composer install
+
+echo "🔐 Setting up Laravel environment..."
+cp -n .env.example .env || true
 php artisan key:generate
 
-# Update koneksi DB (optional, sesuaikan IP-nya)
-sed -i 's/DB_HOST=127.0.0.1/DB_HOST=172.17.0.2/' .env
-sed -i 's/DB_PASSWORD=/DB_PASSWORD=password/' .env
+echo "⚙️ Configuring .env database..."
+sed -i 's/DB_HOST=127.0.0.1/DB_HOST=172.17.0.2/g' .env
+sed -i 's/DB_PASSWORD=/DB_PASSWORD=password/g' .env
 
-# Clear and rebuild cache
-php artisan config:clear
-php artisan cache:clear
-php artisan view:clear
+echo "🧹 Clearing and updating Laravel..."
+php artisan config:clear || true
+php artisan cache:clear || true
+composer update
 
-# Migrate dan seed
+echo "🗄️ Running migrations and seeding database..."
 php artisan migrate --force
 php artisan db:seed --force
 
-# Buat symbolic link ke storage
-php artisan storage:link
+echo "🔗 Linking storage..."
+php artisan storage:link || true
+
+echo "📂 Fixing permissions..."
+mkdir -p bootstrap/cache storage/framework/{sessions,views,cache}
+chmod -R 775 bootstrap/cache storage
+chown -R www-data:www-data bootstrap storage
+
+echo "✅ install.sh completed successfully!"
 
