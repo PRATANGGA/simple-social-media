@@ -1,29 +1,34 @@
 #!/bin/bash
-
 set -e
 
-# Install dependencies
-composer install
+echo "▶️  Menjalankan setup aplikasi Laravel..."
+
+# 1. Install dependencies Laravel dan JS
+composer install 
 npm install
 npm run build
 
-# Setup Laravel
-cp .env.example .env
+# 2. Setup .env
+cp -n .env.example .env
+
+# 3. Generate key
 php artisan key:generate
 
-# Update koneksi DB (optional, sesuaikan IP-nya)
-sed -i 's/DB_HOST=127.0.0.1/DB_HOST=172.17.0.2/' .env
+# 4. Ganti koneksi DB (gunakan nama service, bukan IP statis)
+sed -i 's/DB_HOST=127.0.0.1/DB_HOST=mysql/' .env
 sed -i 's/DB_PASSWORD=/DB_PASSWORD=password/' .env
 
-# Clear and rebuild cache
+# 5. Cache clear
 php artisan config:clear
 php artisan cache:clear
 php artisan view:clear
 
-# Migrate dan seed
+# 6. Migrate dan seed
 php artisan migrate --force
 php artisan db:seed --force
 
-# Buat symbolic link ke storage
+# 7. Storage symlink
 php artisan storage:link
+
+echo "✅ Aplikasi Laravel siap dijalankan."
 
